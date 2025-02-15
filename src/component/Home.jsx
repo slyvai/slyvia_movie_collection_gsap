@@ -10,6 +10,7 @@ function Home() {
   const [action, setAction] = useState([]);
   const [anime, setAnime] = useState([]);
   const [horror, setHorror] = useState([]);
+  const [drama, setDrama] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const resultsRef = useRef(null);
 
@@ -54,6 +55,9 @@ function Home() {
   };
 
   const handleSearchButtonClick = () => {
+    if (search.trim() === '') {
+      setIsSearching(false);
+    }
     getMovies(search);
   };
 
@@ -71,8 +75,9 @@ function Home() {
 
   useEffect(() => {
     fetchGenreMovies('avengers', setAction);
-    fetchGenreMovies('persona 3', setAnime);
+    fetchGenreMovies('mobile suit gundam', setAnime);
     fetchGenreMovies('horror', setHorror);
+    fetchGenreMovies('The Spirealm', setDrama);
   }, []);
 
   return (
@@ -100,7 +105,9 @@ function Home() {
               once more in order to reverse Thanos' actions and restore balance to the
               universe.
             </p>
+            
             <button>Continue Watch</button>
+            <div class="arrow" onClick={scrollToResults}></div>
           </div>
         </div>
       </div>
@@ -146,7 +153,7 @@ function Home() {
           </div>
 
           <h2>Top Anime</h2>
-          <p>Persona 3 is a Japanese role-playing video game and movie franchise created by Atlus. It is the first game in the Persona series, and is known for its unique character design and storylines.</p>
+          <p>Mobile Suit Gundam is a Japanese media franchise and media franchise based on the Gundam franchise.</p>
           <div className="movie-container">
             {anime.map((movie) => (
               <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
@@ -169,6 +176,26 @@ function Home() {
           <p>Horror is a genre of fiction which is intended to scare and frighten the audience.</p>
           <div className="movie-container">
             {horror.map((movie) => (
+              <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
+                <div className="movie">
+                  <img
+                    src={movie['#IMG_POSTER']}
+                    alt={movie['#TITLE']}
+                  />
+                  <div className="movie-details-overlay">
+                    <p>Rating: 4.5 ⭐</p>
+                    <p>{movie['#AKA']}</p> <br />
+                    <p>{movie['#ACTORS']}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <h2>Top Drama</h2>
+          <p>Drama is a genre of fiction which focuses on the emotional and psychological aspects of a story.</p>
+          <div className="movie-container">
+            {drama.map((movie) => (
               <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
                 <div className="movie">
                   <img

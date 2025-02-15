@@ -8,6 +8,7 @@ function MovieDetail() {
   if (!movie) {
     return <p>No movie details available</p>;
   }
+  
 
   const handleGoBack = () => {
     window.history.back();
