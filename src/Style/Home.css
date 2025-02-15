@@ -44,7 +44,7 @@ h2 {
   padding: 0px 70px;
 }
 
-h1 {
+.overlay > h1 {
   float: left;  
   font-family: "Rowdies", serif;
   font-weight: 300;
@@ -74,7 +74,7 @@ button {
   font-style: normal;
 }
 
-.container-title input {
+.container-title > input {
   border-radius: 10px;
   box-shadow: 0 0 10px #ccacff, 0 0 10px #ccacff;
 }
@@ -83,7 +83,7 @@ button {
   position: relative;
 }
 
-.banner img {
+.banner > img {
   width: 100%;
 }
 
@@ -130,4 +130,43 @@ button {
   float: left;
   margin: 10px 30px;
   padding: 15px; 
+}
+
+.movie-container .movie {
+  position: relative;
+  display: inline-block;
+}
+
+.movie-container .movie img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+
+.movie-details-overlay p {
+  font-family: "Poppins", serif;
+  font-weight: 300;
+  font-style: normal;
+  color: #fff;
+  padding: 0px 30px;
+  text-align: left;
+}
+
+.movie-container .movie .movie-details-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.movie-container .movie:hover .movie-details-overlay {
+  display: block;
 }

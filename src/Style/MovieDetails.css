@@ -1,0 +1,12 @@
+.movie-details {
+  margin: 60px;
+  color: #fff;
+}
+
+.movie-details img {
+  float: left;
+}
+
+.movie-details p {
+  padding: 10px;
+}

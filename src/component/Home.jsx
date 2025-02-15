@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Banner from '../assets/avengers-infinity-war-banner-4k-4c-1920x1080.jpg';
@@ -10,19 +11,19 @@ function Home() {
   const [anime, setAnime] = useState([]);
   const [horror, setHorror] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const resultsRef = useRef(null); 
+  const resultsRef = useRef(null);
 
   const getMovies = async (query) => {
     try {
       const response = await axios.get(`https://imdb.iamidiotareyoutoo.com/search?q=${query}`);
       setMovies(response.data.description);
       setIsSearching(true);
-      scrollToResults(); 
+      scrollToResults();
     } catch (error) {
       if (query.length === 0) {
         Swal.fire({
           icon: 'question',
-          title: 'Search Something Please 😞',
+          title: 'Type something in the search field :(',
           confirmButtonText: 'OK',
         });
       } else {
@@ -38,7 +39,7 @@ function Home() {
   const fetchGenreMovies = async (genre, setState) => {
     try {
       const response = await axios.get(`https://imdb.iamidiotareyoutoo.com/search?q=${genre}`);
-      setState(response.data.description); 
+      setState(response.data.description);
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -58,7 +59,7 @@ function Home() {
 
   const scrollToResults = () => {
     if (resultsRef.current) {
-      resultsRef.current.scrollIntoView({ behavior: 'smooth' });   
+      resultsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -94,7 +95,10 @@ function Home() {
             </div>
             <h2>Avengers: Endgame (2019).</h2>
             <p>
-              The Avengers are a team of superheroes appearing in comic books published by Marvel Comics. Created by writer Stan Lee and artist Jack Kirby, they first appeared in "The Avengers" #1 in 1963. The original team consisted of Iron Man, Thor, Hulk, Ant-Man, and Wasp. Over the years, the roster has included numerous other characters such as Captain America, Black Widow, Hawkeye, Vision, Scarlet Witch, and many others.
+              After the devastating events of Avengers: Infinity War (2018), the universe
+              is in ruins. With the help of remaining allies, the Avengers assemble
+              once more in order to reverse Thanos' actions and restore balance to the
+              universe.
             </p>
             <button>Continue Watch</button>
           </div>
@@ -103,55 +107,61 @@ function Home() {
 
       <div className="movie-container" ref={resultsRef}>
         {isSearching && movies.map((movie) => (
-          <div key={movie['#IMDB_ID']}>
-            <img
-              style={{ width: '90%', height: '90%', borderRadius: '10px' }}
-              src={movie['#IMG_POSTER']}
-              alt={movie['#TITLE']}
-            />
-            <div className="text-movie">
-              <h4>{movie['#AKA']}</h4>
-              <h5 style={{ fontSize: '12px', color: '#bbb' }}>{movie['#ACTORS']}</h5>
+          <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
+            <div className="movie">
+              <img
+                src={movie['#IMG_POSTER']}
+                alt={movie['#TITLE']}
+              />
+              <div className="movie-details-overlay">
+                <p>Rating: 4.5 ⭐</p>
+                <p>{movie['#AKA']}</p> <br />
+                <p>{movie['#ACTORS']}</p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
       {!isSearching && (
         <>
-        <h2>Top Action</h2>
-        <p>Avengers is a superhero team that appears in comic books published by Marvel Comics. Created by writer Stan Lee and artist Jack Kirby, they first appeared in "The Avengers" #1 in 1963.</p>
+          <h2>Top Action</h2>
+          <p>Avengers is a superhero team that appears in comic books published by Marvel Comics. Created by writer Stan Lee and artist Jack Kirby, they first appeared in "The Avengers" #1 in 1963.</p>
           <div className="movie-container">
             {action.map((movie) => (
-              <div key={movie['#IMDB_ID']}>
-                <img
-                  style={{ width: '90%', height: '90%', borderRadius: '10px' }}
-                  src={movie['#IMG_POSTER']}
-                  alt={movie['#TITLE']}
-                />
-                <div className="text-movie">
-                  <h4>{movie['#AKA']}</h4>
-                  <h5 style={{ fontSize: '12px', color: '#bbb' }}>{movie['#ACTORS']}</h5>
+              <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
+                <div className="movie">
+                  <img
+                    src={movie['#IMG_POSTER']}
+                    alt={movie['#TITLE']}
+                  />
+                  <div className="movie-details-overlay">
+                    <p>Rating: 4.5 ⭐</p>
+                    <p>{movie['#AKA']}</p> <br />
+                    <p>{movie['#ACTORS']}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
           <h2>Top Anime</h2>
-          <p>Persona 3 is a Japanese role-playing video game franchise created by Atlus. It is the first game in the Persona series, and is known for its unique character design and storylines.</p>
+          <p>Persona 3 is a Japanese role-playing video game and movie franchise created by Atlus. It is the first game in the Persona series, and is known for its unique character design and storylines.</p>
           <div className="movie-container">
             {anime.map((movie) => (
-              <div key={movie['#IMDB_ID']}>
-                <img
-                  style={{ width: '90%', height: '90%', borderRadius: '10px' }}
-                  src={movie['#IMG_POSTER']}
-                  alt={movie['#TITLE']}
-                />
-                <div className="text-movie">
-                  <h4>{movie['#AKA']}</h4>
-                  <h5 style={{ fontSize: '12px', color: '#bbb' }}>{movie['#ACTORS']}</h5>
+              <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
+                <div className="movie">
+                  <img
+                    src={movie['#IMG_POSTER']}
+                    alt={movie['#TITLE']}
+                  />
+                  <div className="movie-details-overlay">
+                    <p>Rating: 4.5 ⭐</p>
+                    <p>{movie['#AKA']}</p> <br />
+                    <p>{movie['#ACTORS']}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -159,17 +169,19 @@ function Home() {
           <p>Horror is a genre of fiction which is intended to scare and frighten the audience.</p>
           <div className="movie-container">
             {horror.map((movie) => (
-              <div key={movie['#IMDB_ID']}>
-                <img
-                  style={{ width: '90%', height: '90%', borderRadius: '10px' }}
-                  src={movie['#IMG_POSTER']}
-                  alt={movie['#TITLE']}
-                />
-                <div className="text-movie">
-                  <h4>{movie['#AKA']}</h4>
-                  <h5 style={{ fontSize: '12px', color: '#bbb' }}>{movie['#ACTORS']}</h5>
+              <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
+                <div className="movie">
+                  <img
+                    src={movie['#IMG_POSTER']}
+                    alt={movie['#TITLE']}
+                  />
+                  <div className="movie-details-overlay">
+                    <p>Rating: 4.5 ⭐</p>
+                    <p>{movie['#AKA']}</p> <br />
+                    <p>{movie['#ACTORS']}</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </>
