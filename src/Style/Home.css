@@ -21,7 +21,7 @@ body {
 .movie-container {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  margin: 60px;
+  margin: 50px;
   color: #fff;
 }
 
@@ -54,6 +54,7 @@ h2 {
   padding: 0px 30px;
   text-shadow: 0 0 10px #ccacff, 0 0 10px #ccacff;
 }
+
 .search-bar {
   padding: 10px;
   font-size: 15px;
@@ -80,14 +81,6 @@ button {
   box-shadow: 0 0 10px #ccacff, 0 0 10px #ccacff;
 }
 
-.banner {
-  position: relative;
-}
-
-.banner > img {
-  width: 100%;
-}
-
 .overlay {
   position: absolute;
   bottom: 0;
@@ -97,7 +90,7 @@ button {
   background: linear-gradient(transparent, rgb(0, 0, 0));
 }
 
-.overlay h2 {
+.overlay > h2 {
   color: #fff;
   font-size: 50px;
   font-family: "Poppins", serif;
@@ -110,7 +103,7 @@ button {
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px rgb(89, 0, 255), 0 0 70px rgb(89, 0, 255), 0 0 80px rgb(89, 0, 255), 0 0 100px rgb(89, 0, 255), 0 0 150px rgb(89, 0, 255)
 }
 
-.overlay p {
+.overlay > p {
   color: #fff;
   font-size: 20px;
   font-family: "Poppins", serif;
@@ -139,8 +132,8 @@ button {
 }
 
 .movie-container .movie img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  height: auto;
   border-radius: 10px;
   padding: 0 10px;
 }
@@ -172,48 +165,3 @@ button {
   display: block;
 }
 
-.arrow,
-.arrow:before {
-  position: absolute;
-  left: 50%;
-}
-
-.arrow {  
-  width: 40px;
-  height: 40px;
-  top: 70%;
-  margin: -20px 0 0 -20px;
-  transform: rotate(45deg);
-  border-left: none;
-  border-top: none;
-  border-right: 2px #fff solid;
-  border-bottom: 2px #fff solid;
-  cursor: pointer;
-  display: inline-block;
-}
-
-  
-.arrow:before {
-  content: '';
-  width: 20px;
-  height: 20px;
-  top: 50%;
-  margin: -10px 0 0 -10px;
-  border-left: none;
-  border-top: none;
-  border-right: 1px #fff solid;
-  border-bottom: 1px #fff solid;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-name: arrow;
-}
-  
-@keyframes arrow {  
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-10px, -10px);
-  }
-}
