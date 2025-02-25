@@ -79,21 +79,21 @@ function Home() {
 
     const button = buttonSearch.current;
 
-    button.addEventListener('mouseenter', () => {
+    const handleMouseEnter = () => {
       gsap.to(button, {
         duration: 0.3,
         scale: 1.1,
       });
-    });
+    };
 
-    button.addEventListener('mouseleave', () => {
+    const handleMouseLeave = () => {
       gsap.to(button, {
         duration: 0.3,
         scale: 1,
       });
-    });
+    };
 
-    button.addEventListener('click', () => {
+    const handleClick = () => {
       const tl = gsap.timeline();
       tl.to(button, {
         duration: 0.3,
@@ -104,30 +104,36 @@ function Home() {
         scale: 1.1,
         ease: 'bounce.out',
       });
-    });
+    };
+
+    button.addEventListener('mouseenter', handleMouseEnter);
+    button.addEventListener('mouseleave', handleMouseLeave);
+    button.addEventListener('click', handleClick);
 
     return () => {
-      button.removeEventListener('click', () => {});
-      button.removeEventListener('mouseenter', () => {});
-      button.removeEventListener('mouseleave', () => {});
+      button.removeEventListener('mouseenter', handleMouseEnter);
+      button.removeEventListener('mouseleave', handleMouseLeave);
+      button.removeEventListener('click', handleClick);
     };
   }, []);
 
   useEffect(() => {
     const movieElements = document.querySelectorAll('.movie-container');
 
-    const animation = gsap.from(movieElements, {
+    gsap.from(movieElements, { 
+      duration: 0.5,
+      y: -30,
+      opacity: 0,
+      stagger: 0.5,
+    })
+
+    gsap.to(movieElements, {
       duration: 1,
-      y: -100,
-      opacity: 0.5,
+      y: 30,
+      opacity: 1,
       stagger: 0.5,
     });
-
-    return () => {
-      animation.kill();
-      gsap.killTweensOf(movieElements);
-    }
-  }, [movies]);
+  }, []);
 
   return (
     <>
