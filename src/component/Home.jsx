@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import gsap from 'gsap';
@@ -13,7 +13,6 @@ function Home() {
   const [drama, setDrama] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const buttonSearch = useRef(null);
-  const location = useLocation();
 
   const getMovies = async (query) => {
     try {
@@ -24,7 +23,7 @@ function Home() {
       if (query.length === 0) {
         Swal.fire({
           icon: 'question',
-          title: 'Type something in the search field :(',
+          title: 'Type something in the search field',
           confirmButtonText: 'OK',
         });
       } else {
@@ -77,62 +76,68 @@ function Home() {
 
     fetchInitialData();
 
-    const button = buttonSearch.current;
-
-    const handleMouseEnter = () => {
-      gsap.to(button, {
-        duration: 0.3,
-        scale: 1.1,
-      });
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(button, {
-        duration: 0.3,
-        scale: 1,
-      });
-    };
-
-    const handleClick = () => {
-      const tl = gsap.timeline();
-      tl.to(button, {
-        duration: 0.3,
-        scale: 0.8,
-        ease: 'bounce.in',
-      }).to(button, {
-        duration: 0.3,
-        scale: 1.1,
-        ease: 'bounce.out',
-      });
-    };
-
-    button.addEventListener('mouseenter', handleMouseEnter);
-    button.addEventListener('mouseleave', handleMouseLeave);
-    button.addEventListener('click', handleClick);
-
-    return () => {
-      button.removeEventListener('mouseenter', handleMouseEnter);
-      button.removeEventListener('mouseleave', handleMouseLeave);
-      button.removeEventListener('click', handleClick);
-    };
   }, []);
 
   useEffect(() => {
-    const movieElements = document.querySelectorAll('.movie-container');
-
-    gsap.from(movieElements, { 
-      duration: 0.5,
-      y: -30,
-      opacity: 0,
-      stagger: 0.5,
-    })
-
-    gsap.to(movieElements, {
-      duration: 1,
-      y: 30,
-      opacity: 1,
-      stagger: 0.5,
-    });
+    const ctx = gsap.context(() => {
+      const movieElements = document.querySelectorAll('.movie-container');
+      const button = buttonSearch.current;
+  
+      const handleMouseEnter = () => {
+        if (gsap.isTweening(button)) {
+          gsap.killTweensOf(button);
+        }
+        gsap.to(button, {
+          duration: 0.3,
+          scale: 1.1,
+        });
+      };
+  
+      const handleMouseLeave = () => {
+        if (gsap.isTweening(button)) {
+          gsap.killTweensOf(button);
+        }
+        gsap.to(button, {
+          duration: 0.3,
+          scale: 1,
+        });
+      };
+  
+      const handleClick = () => {
+        if (gsap.isTweening(button)) {
+          gsap.killTweensOf(button);
+        }
+        gsap.timeline()
+          .to(button, {
+            duration: 0.3,
+            scale: 0.8,
+            ease: 'bounce.in',
+          })
+          .to(button, {
+            duration: 0.3,
+            scale: 1.1,
+            ease: 'bounce.out',
+          });
+      };
+  
+      button.addEventListener('mouseenter', handleMouseEnter);
+      button.addEventListener('mouseleave', handleMouseLeave);
+      button.addEventListener('click', handleClick);
+  
+  
+      gsap.fromTo(movieElements, 
+        { y: -30, opacity: 0.3,  ease: 'power1.inOut' }, 
+        { y: 30, opacity: 1, stagger: 0.4, duration: 1, ease: 'power1.inOut' }
+      );
+  
+      return () => {
+        button.removeEventListener('mouseenter', handleMouseEnter);
+        button.removeEventListener('mouseleave', handleMouseLeave);
+        button.removeEventListener('click', handleClick);
+        ctx.revert();
+      };
+    }, []);
+  
   }, []);
 
   return (
@@ -156,10 +161,10 @@ function Home() {
         </div>
       </div>
 
-      <div className="movie-container" style={{ marginTop: '20px' }}>
+      <div className="movie-container" style={{ marginTop: '20px' }} >
         {isSearching && movies.map((movie) => (
           <Link to={`/movie/${movie['#IMDB_ID']}`} state={{ movie }} key={movie['#IMDB_ID']}>
-            <div className="movie" style={{ marginTop: '60px' }}>
+            <div className="movie" style={{ marginTop: '60px' }} >
               <img
                 src={movie['#IMG_POSTER']}
                 alt={movie['#TITLE']}
