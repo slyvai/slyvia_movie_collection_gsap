@@ -11,6 +11,7 @@
       return <p>No movie details available</p>;
     }
 
+    
     const handleGoBack = () => {
       const detailsElement = document.querySelector('.movie-details');
       
